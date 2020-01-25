@@ -1,0 +1,32 @@
+﻿<Window x:Class="Registro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Registro"
+        mc:Ignorable="d"
+        Title="Registro" Height="350" Width="500">
+    <Grid Background="#FFE9F6F7">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="433*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="IDLabel" Content="ID" HorizontalAlignment="Left" Margin="62,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.737,-1.924" Grid.ColumnSpan="2"/>
+        <Label x:Name="NombreLabel" Content="Nombre" HorizontalAlignment="Left" Margin="46,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.211,-2.233" Grid.ColumnSpan="2"/>
+        <Label x:Name="TelefonoLabel" Content="Telefono" HorizontalAlignment="Left" Margin="46,91,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.236,0.695" Grid.ColumnSpan="2"/>
+        <Label x:Name="CedulaLabel" Content="Cedula" HorizontalAlignment="Left" Margin="47,129,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.429,0.464" Grid.ColumnSpan="2"/>
+        <Label x:Name="DireccionLabel" Content="Direccion" HorizontalAlignment="Left" Margin="42,167,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.571,0.81" Grid.ColumnSpan="2"/>
+        <Label x:Name="FechaDeNacimientoLabel" Content="Fecha de Nacimiento" HorizontalAlignment="Left" Margin="13,204,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="CedulaTextBox" HorizontalAlignment="Left" Margin="91,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox x:Name="DireccionTextBox" HorizontalAlignment="Left" Margin="91,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox x:Name="TelefonoTextBox" HorizontalAlignment="Left" Margin="91,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox x:Name="NombreTextBox" HorizontalAlignment="Left" Margin="91,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Button x:Name="NuevoButton" Content="Nuevo" HorizontalAlignment="Left" Margin="25,288,0,0" VerticalAlignment="Top" Click="NuevoButton_Click"/>
+        <Button x:Name="GuardarButton" Content="Guardar" HorizontalAlignment="Left" Margin="64,288,0,0" VerticalAlignment="Top" Grid.Column="1" Click="GuardarButton_Click"/>
+        <Button x:Name="EliminarButton" Content="Eliminar" HorizontalAlignment="Left" Margin="183,288,0,0" VerticalAlignment="Top" Grid.Column="1" Click="EliminarButton_Click"/>
+        <Button x:Name="BuscarButton" Content="Buscar" HorizontalAlignment="Left" Margin="234,36,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="-0.207,0.804" Click="BuscarButton_Click"/>
+        <DatePicker x:Name="FechaNacimientoDatePicker" HorizontalAlignment="Left" Margin="85,204,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="IDTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="91,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+    </Grid>
+</Window>
