@@ -13,11 +13,13 @@ namespace Registro.BLL
         {
             bool paso = false;
             Contexto db = new Contexto();
+            Console.WriteLine(persona.Balance);
             try
             {
-                if (db.Persona.Add(persona) != null)
+                if (db.Personas.Add(persona) != null)
                     paso = db.SaveChanges() > 0;
             }
+
             catch (Exception)
             {
                 throw;
@@ -25,6 +27,31 @@ namespace Registro.BLL
             finally
             {
                 db.Dispose();
+            }
+            return paso;
+        }
+        public static bool GuardarBalance(int id, decimal balance)
+        {
+            bool paso = false;
+            Contexto db = new Contexto();
+            Personas persona = new Personas();
+            persona = db.Personas.Find(id);
+            if(persona != null)
+            {
+                try
+                {
+                    persona.Balance += balance;
+                    db.Entry(persona).State = EntityState.Modified;
+                    paso = (db.SaveChanges() < 0);
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    db.Dispose();
+                }
             }
             return paso;
         }
@@ -58,7 +85,7 @@ namespace Registro.BLL
             Contexto db = new Contexto();
             try
             {
-                var eliminar = db.Persona.Find(id);
+                var eliminar = db.Personas.Find(id);
                 db.Entry(eliminar).State = EntityState.Deleted;
 
                 paso = (db.SaveChanges() > 0);
@@ -81,7 +108,7 @@ namespace Registro.BLL
             Personas Persona = new Personas();
             try
             {
-                Persona = db.Persona.Find(id);
+                Persona = db.Personas.Find(id);
             }
             catch(Exception)
             {
@@ -92,11 +119,8 @@ namespace Registro.BLL
             }
             return Persona;
 
-        }
+           
 
-        internal static Personas Buscar(string text)
-        {
-            throw new NotImplementedException();
         }
     }
 }

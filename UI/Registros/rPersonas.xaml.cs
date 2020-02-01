@@ -1,33 +1,28 @@
 ﻿using Registro.BLL;
 using Registro.Entidades;
-using Registro.UI.Registros;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Registro
+namespace Registro.UI.Registros
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RegistroPersonas.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class RegistroPersonas : Window
     {
-        public MainWindow()
+        public RegistroPersonas()
         {
             InitializeComponent();
-        }/*
+        }
         private void Limpiar()
         {
             IDTextBox.Text = string.Empty;
@@ -35,39 +30,44 @@ namespace Registro
             CedulaTextBox.Text = string.Empty;
             DireccionTextBox.Text = string.Empty;
             FechaNacimientoDatePicker.Text = Convert.ToString(DateTime.Now);
+            BalanceTextBox.Text = string.Empty;
         }
         //LLenarClase
-        private Persona LLenaClase()
+        private Personas LLenaClase()
         {
-            Persona Persona = new Persona();
-            if(string.IsNullOrWhiteSpace (IDTextBox.Text))
+            Personas persona = new Personas();
+            if (string.IsNullOrWhiteSpace(IDTextBox.Text) && string.IsNullOrWhiteSpace(BalanceTextBox.Text))
             {
                 IDTextBox.Text = "0";
-            }else
-            Persona.PersonaID = Convert.ToInt32(IDTextBox.Text);
-            Persona.Nombre = NombreTextBox.Text;
-            Persona.Telefono = TelefonoTextBox.Text;
-            Persona.Cedula = CedulaTextBox.Text;
-            Persona.Direccion = DireccionTextBox.Text;
-            Persona.FechaNacimiento = Convert.ToDateTime(FechaNacimientoDatePicker.SelectedDate);
-            return Persona;
+                BalanceTextBox.Text = "0";
+            }
+            else
+                persona.PersonaId = Convert.ToInt32(IDTextBox.Text);
+            persona.Nombre = NombreTextBox.Text;
+            persona.Telefono = TelefonoTextBox.Text;
+            persona.Cedula = CedulaTextBox.Text;
+            persona.Direccion = DireccionTextBox.Text;
+            persona.FechaNacimiento = Convert.ToDateTime(FechaNacimientoDatePicker.SelectedDate);
+            persona.Balance = Convert.ToDecimal(BalanceTextBox.Text);
+            return persona;
         }
 
         //LLenarCampos
-        private void LLenaCampo(Persona Persona)
+        private void LLenaCampo(Personas persona)
         {
-            IDTextBox.Text = Convert.ToString(Persona.PersonaID);
-            NombreTextBox.Text = Persona.Nombre;
-            CedulaTextBox.Text = Persona.Cedula;
-            TelefonoTextBox.Text = Persona.Telefono;
-            DireccionTextBox.Text = Persona.Direccion;
-            FechaNacimientoDatePicker.SelectedDate = Persona.FechaNacimiento;
+            IDTextBox.Text = Convert.ToString(persona.PersonaId);
+            NombreTextBox.Text = persona.Nombre;
+            CedulaTextBox.Text = persona.Cedula;
+            TelefonoTextBox.Text = persona.Telefono;
+            DireccionTextBox.Text = persona.Direccion;
+            FechaNacimientoDatePicker.SelectedDate = persona.FechaNacimiento;
+            BalanceTextBox.Text = Convert.ToString(persona.Balance);
         }
         //Existe en la Base de Datos
         private bool ExisteEnLaBaseDeDatos()
         {
-            Persona Persona = PersonasBLL.Buscar(Convert.ToInt32(IDTextBox.Text));
-            return (Persona != null);
+            Personas persona = PersonasBLL.Buscar(Convert.ToInt32(IDTextBox.Text));
+            return (persona != null);
         }
 
         //Validar
@@ -97,8 +97,6 @@ namespace Registro
             return paso;
 
         }
-
-
         private void NuevoButton_Click(object sender, RoutedEventArgs e)
         {
             Limpiar();
@@ -106,25 +104,25 @@ namespace Registro
 
         private void GuardarButton_Click(object sender, RoutedEventArgs e)
         {
-            Persona persona;
+            Personas persona;
             bool paso = false;
             if (!Validar())
                 return;
             persona = LLenaClase();
 
             //Guardar o Modificar
-            if (string.IsNullOrWhiteSpace(IDTextBox.Text )|| IDTextBox.Text == "0")
+            if ((string.IsNullOrWhiteSpace(IDTextBox.Text) || IDTextBox.Text == "0") && (string.IsNullOrWhiteSpace(BalanceTextBox.Text) || BalanceTextBox.Text == "0"))
                 paso = PersonasBLL.Guardar(persona);
             else
             {
-                if(!ExisteEnLaBaseDeDatos())
+                if (!ExisteEnLaBaseDeDatos())
                 {
                     MessageBox.Show("No se puede modificar una persona que no existe", "Fallo", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                paso = PersonasBLL.Modificar(persona); 
+                paso = PersonasBLL.Modificar(persona);
             }
-            if(paso)
+            if (paso)
             {
                 Limpiar();
                 MessageBox.Show("Guardado!!", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -134,18 +132,30 @@ namespace Registro
                 MessageBox.Show("No Fue Posible Guardar!!", "Fallo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            
+        }
+
+        private void EliminarButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show("Clear");
+            int id;
+            int.TryParse(IDTextBox.Text, out id);
+            Limpiar();
+            if (PersonasBLL.Eliminar(id))
+                MessageBox.Show("Eliminado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show(IDTextBox.Text, "No Se Puede Eliminar Una Persona que no Existe");
         }
 
         private void BuscarButton_Click(object sender, RoutedEventArgs e)
         {
             int id;
-            Persona persona = new Persona();
+            Personas persona = new Personas();
             int.TryParse(IDTextBox.Text, out id);
             Limpiar();
             persona = PersonasBLL.Buscar(id);
 
-            if(persona !=null)
+            if (persona != null)
             {
                 MessageBox.Show("Persona Encontrada");
                 LLenaCampo(persona);
@@ -157,47 +167,9 @@ namespace Registro
             }
         }
 
-        private void EliminarButton_Click(object sender, RoutedEventArgs e)
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            MessageBox.Show("Clear");
-            int id;
-            int.TryParse(IDTextBox.Text, out id);
-            Limpiar();
-            if (PersonasBLL.Eliminar(id))
-                MessageBox.Show("Eliminado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
-            else
-                MessageBox.Show(IDTextBox.Text,"No Se Puede Eliminar Una Persona que no Existe");
-        }*/
-        private void RegistroComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (RegistroComboBox.SelectedIndex == 0)
-            {
-                RegistroPersonas form = new RegistroPersonas();
-                form.Show();
-            }
-            else
-            {
-                RegistroInscripcion form = new RegistroInscripcion();
-                form.Show();
-            }
 
-
-        }
-
-
-        private void ConsultasComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (RegistroComboBox.SelectedIndex == 0)
-            {
-                RegistroPersonas form = new RegistroPersonas();
-                form.Show();
-            }
-            else
-            {
-                RegistroPersonas form = new RegistroPersonas();
-                form.Show();
-            }
         }
     }
-        
 }

@@ -8,12 +8,12 @@ namespace Registro.DAL
 {
     public class Contexto: DbContext
     {
-        public DbSet<Personas> Persona { get; set; }
-        public object Personas { get; internal set; }
+        public DbSet<Personas> Personas { get; set; }
+        public DbSet<Inscripciones> Inscripciones { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server = .\DESKTOP - HMJOQ71\USER; Database = TestDb; Trusted_Connection = True");
+            optionsBuilder.UseSqlServer(@"Server =DESKTOP-HMJOQ71; Database = PersonasDB; Trusted_Connection = True;");
         }
 
     }

@@ -1,0 +1,22 @@
+﻿<Window x:Class="Registro.UI.Consultas.Consultas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Registro.UI.Consultas"
+        mc:Ignorable="d"
+        Title="ConsultasDeInscripcion" Height="450" Width="800">
+    <Grid HorizontalAlignment="Center" Width="800">
+        <Label Content="Desde" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="79"/>
+        <Label Content="Hasta" HorizontalAlignment="Left" Margin="200,28,0,0" VerticalAlignment="Top" Width="81"/>
+        <Label Content="Filtro" HorizontalAlignment="Left" Margin="389,28,0,0" VerticalAlignment="Top" Height="39" Width="80"/>
+        <Label Content="Criterio" HorizontalAlignment="Left" Margin="540,26,0,0" VerticalAlignment="Top" Height="32" Width="77"/>
+        <Button x:Name="ConsultarButton" Content="Consultar" HorizontalAlignment="Left" Margin="695,48,0,0" VerticalAlignment="Top" Height="42" Width="95" Click="ConsultarButton_Click"/>
+        <DatePicker x:Name="DesdeDatePicker" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="153"/>
+        <DatePicker x:Name="HastaDatePicker" HorizontalAlignment="Left" Margin="168,62,0,0" VerticalAlignment="Top" Width="158"/>
+        <ComboBox x:Name="FiltroComboBox" HorizontalAlignment="Left" Margin="341,62,0,0" VerticalAlignment="Top" Width="148"/>
+        <TextBox x:Name="CriterioTextBox" HorizontalAlignment="Left" Margin="504,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="186" Height="21"/>
+        <DataGrid x:Name="ConsultaDataGrid" Margin="0,91,0,10"/>
+
+    </Grid>
+</Window>
