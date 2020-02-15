@@ -136,11 +136,12 @@ namespace Registro.UI.Registros
 
         private void EliminarButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Clear");
+            
             int id;
             int.TryParse(InscripcionIdTextBox.Text, out id);
+            int PersonaId = Convert.ToInt32(PersonaIdTextBox.Text);
             Limpiar();
-            if(InscripcionBLL.Eliminar (id))
+            if(InscripcionBLL.Eliminar (id , PersonaId))
                 MessageBox.Show("Eliminado", "Exito", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 MessageBox.Show(InscripcionIdTextBox.Text, "No Se Puede Eliminar Una Persona que no Existe");

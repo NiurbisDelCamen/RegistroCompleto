@@ -15,7 +15,7 @@
         <Label Content="Depósito" HorizontalAlignment="Left" Margin="31,278,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.52,-0.73"/>
         <Label Content="Comentarios" HorizontalAlignment="Left" Margin="27,338,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="InscripcionIdTextBox" HorizontalAlignment="Left" Margin="196,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="351" Height="29"/>
-        <TextBox x:Name="PersonaIdTextBox" HorizontalAlignment="Left" Margin="196,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="357" Height="31" RenderTransformOrigin="0.5,0.5">
+        <TextBox x:Name="PersonaIdTextBox" HorizontalAlignment="Left" Margin="196,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="357" Height="34" RenderTransformOrigin="0.5,0.5">
             <TextBox.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

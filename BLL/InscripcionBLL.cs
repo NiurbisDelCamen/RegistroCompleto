@@ -15,22 +15,10 @@ namespace Registro.BLL
         {
             bool paso = false;
             Contexto db = new Contexto();
-
-            if(inscripcion.Balance >0)
-            {
-                PersonasBLL.GuardarBalance(inscripcion.InscripcionId, (-1 * inscripcion.Deposito));
-                inscripcion.Balance -= inscripcion.Deposito;
-            }
-            else
-            {
-                PersonasBLL.GuardarBalance(inscripcion.InscripcionId, (inscripcion.Monto - inscripcion.Deposito));
-                inscripcion.Balance = (inscripcion.Monto - inscripcion.Deposito);
-            }
             try
             {
                 if (db.Inscripciones.Add(inscripcion) != null)
-                    paso = db.SaveChanges() > 0;
-
+                    paso = db.SaveChanges() > 0 && AfectarBalance(inscripcion);
             }
             catch (Exception)
             {
@@ -50,9 +38,16 @@ namespace Registro.BLL
             Contexto db = new Contexto();
             try
             {
-                db.Entry(inscripcion).State = EntityState.Modified;
-                paso = (db.SaveChanges() > 0);
-                
+                if(inscripcion.Deposito >0)
+                {
+                    db.Entry(inscripcion).State = EntityState.Modified;
+                    paso = db.SaveChanges() > 0 && AfectarBalanceModificado(inscripcion);
+                }
+                else
+                {
+                    db.Entry(inscripcion).State = EntityState.Modified;
+                    paso = db.SaveChanges() > 0;
+                }
             }
             catch (Exception)
             {
@@ -66,16 +61,53 @@ namespace Registro.BLL
             return paso;
         }
 
+        public static bool AfectarBalance(Inscripciones inscripcion)
+        {
+            bool paso = false;
+            Contexto db= new Contexto();
+
+            try
+            {
+                db.Personas.Find(inscripcion.PersonaId).Balance += inscripcion.Balance;
+                paso = db.SaveChanges() > 0;
+            }catch(Exception)
+            {
+                throw;
+            }finally
+            {
+                db.Dispose();
+            }
+            return paso;
+
+        }
+         public static bool AfectarBalanceModificado(Inscripciones inscripcion)
+        {
+            bool paso = false;
+            Contexto db = new Contexto();
+
+            try
+            {
+                db.Personas.Find(inscripcion.PersonaId).Balance += inscripcion.Deposito;
+                paso = db.SaveChanges() > 0;
+            }catch(Exception)
+            {
+                throw;
+            }finally
+            {
+                db.Dispose();
+            }
+            return paso;
+        }
+
         //Eliminar.
-        public static bool Eliminar(int id)
+        public static bool Eliminar(int id, int PersonaId)
         {
             bool paso = false;
             Contexto db = new Contexto();
             try
             {
-                var eliminar = db.Inscripciones.Find(id);
-                db.Entry(eliminar).State = EntityState.Deleted;
-
+                db.Inscripciones.Find(id).Balance = 0;
+                db.Personas.Find(PersonaId).Balance = 0;
                 paso = (db.SaveChanges() > 0);
 
             }
